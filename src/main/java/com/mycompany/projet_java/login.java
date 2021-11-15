@@ -119,7 +119,7 @@ public class login extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel3.setText("Login Email ");
+        jLabel3.setText("Nom d'utilisateur");
 
         jLabel5.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(11, 22, 50));

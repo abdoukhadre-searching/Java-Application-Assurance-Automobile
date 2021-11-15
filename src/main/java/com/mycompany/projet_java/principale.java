@@ -30,10 +30,12 @@ import net.proteanit.sql.DbUtils;
             setExtendedState(principale.MAXIMIZED_BOTH);
             t.start();
             affiche_listeAssure();
+            afficheBorderaux();
         }
 
     private Connection connection = null;
     public static int id;
+    public static String groupeBord;
 
     Timer t = new Timer(0, new ActionListener() {
             @Override
@@ -101,6 +103,49 @@ import net.proteanit.sql.DbUtils;
             jTextArea1.setText(ex.getMessage());
         }
     }
+    
+    public void afficheBorderaux(){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+            String sql = "SELECT  operateur, groupe, clientAssure, attestation, dateEcheance, dateDelivrance, prime_total, primeNette, commission, numeroPolice, immatriculation FROM alldata";
+            PreparedStatement ps = con.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            tabBorderaux.setModel(DbUtils.resultSetToTableModel(rs));
+            con.close();
+            
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage());
+        }
+    }
+    
+    public void afficheBorderauxPole(){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+            String sql = "SELECT  operateur, groupe, clientAssure, attestation, dateEcheance, dateDelivrance, prime_total, primeNette, commission, numeroPolice, immatriculation FROM alldata WHERE `groupe`= 'Pole'";
+            PreparedStatement ps = con.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            tabBorderaux.setModel(DbUtils.resultSetToTableModel(rs));
+            con.close();
+            
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage());
+        }
+    }
+    
+    public void afficheBorderauxArgenciel(){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+            String sql = "SELECT  operateur, groupe, clientAssure, attestation, dateEcheance, dateDelivrance, prime_total, primeNette, commission, numeroPolice, immatriculation FROM alldata WHERE `groupe`= 'Argenciel'";
+            PreparedStatement ps = con.prepareStatement(sql);            
+            ResultSet rs = ps.executeQuery();
+            tabBorderaux.setModel(DbUtils.resultSetToTableModel(rs));
+            con.close();
+            
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage());
+        }
+    }
+    
     public void update(){
         try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
@@ -173,7 +218,7 @@ import net.proteanit.sql.DbUtils;
                 ps.executeUpdate(); 
                 
                 jTextArea1.setForeground(Color.green);
-                jTextArea1.setText("Modification effectuée avec succés !");
+                jTextArea1.setText("Operation effectuée avec succés !");
                 
                 clearField();
                 btnValider.setText("Enregistrer");
@@ -213,6 +258,58 @@ import net.proteanit.sql.DbUtils;
                     nombrePlaces.setValue(0);
                     nombreMois.setValue(0);
                     nombreChevaux.setValue(0);      
+    }
+    
+    public void geler(){
+        txtAssure.setEnabled(false);
+        txtProfession.setEnabled(false);
+        txtAdresse.setEnabled(false);
+        txtMarque.setEnabled(false);
+        txtGenre.setEnabled(false);
+        txtImmat.setEnabled(false);
+        txtAttest.setEnabled(false);
+        txtPolice.setEnabled(false);
+        txtTelephone.setEnabled(false);
+        txtPT.setEnabled(false);
+        txtPrimeNette.setEnabled(false);
+        txtTaxe.setEnabled(false);
+        txtFG.setEnabled(false);
+        txtRC.setEnabled(false);                
+                    
+        cboTalon.setEnabled(false);
+        cboCategorie.setEnabled(false);
+        cboEnergie.setEnabled(false);
+        cboGroupe.setEnabled(false);
+        cboTonnage.setEnabled(false);
+        nombrePlaces.setEnabled(false);
+        nombreMois.setEnabled(true);
+        nombreChevaux.setEnabled(false);  
+    }
+    
+    public void activer(){
+        txtAssure.setEnabled(true);
+        txtProfession.setEnabled(true);
+        txtAdresse.setEnabled(true);
+        txtMarque.setEnabled(true);
+        txtGenre.setEnabled(true);
+        txtImmat.setEnabled(true);
+        txtAttest.setEnabled(true);
+        txtPolice.setEnabled(true);
+        txtTelephone.setEnabled(true);
+        txtPT.setEnabled(true);
+        txtPrimeNette.setEnabled(true);
+        txtTaxe.setEnabled(true);
+        txtFG.setEnabled(true);
+        txtRC.setEnabled(true);                
+                    
+        cboTalon.setEnabled(true);
+        cboCategorie.setEnabled(true);
+        cboEnergie.setEnabled(true);
+        cboGroupe.setEnabled(true);
+        cboTonnage.setEnabled(true);
+        nombrePlaces.setEnabled(true);
+        nombreMois.setEnabled(true);
+        nombreChevaux.setEnabled(true);  
     }
     
 
@@ -298,6 +395,7 @@ import net.proteanit.sql.DbUtils;
         nombreMois = new com.toedter.components.JSpinField();
         jLabel2 = new javax.swing.JLabel();
         lbl_retour1 = new javax.swing.JLabel();
+        btnClearFields = new javax.swing.JButton();
         listeAssure = new javax.swing.JPanel();
         btnModifier1 = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
@@ -305,7 +403,26 @@ import net.proteanit.sql.DbUtils;
         lbl_retour = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        btnRenouvellement = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        borderaux = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabBorderaux = new javax.swing.JTable();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        cboGroupeBorderaux = new javax.swing.JComboBox<>();
+        jLabel30 = new javax.swing.JLabel();
+        btnPrint1 = new javax.swing.JButton();
+        btnSupprimer1 = new javax.swing.JButton();
+        txTAttest_filter = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -351,6 +468,11 @@ import net.proteanit.sql.DbUtils;
         });
 
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\Frame 3.png")); // NOI18N
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\Frame 2.png")); // NOI18N
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -394,7 +516,7 @@ import net.proteanit.sql.DbUtils;
                         .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabel3)
                     .addComponent(jLabel19))
-                .addContainerGap(308, Short.MAX_VALUE))
+                .addContainerGap(337, Short.MAX_VALUE))
         );
 
         tabPan.addTab("tab1", acceuil);
@@ -796,7 +918,7 @@ import net.proteanit.sql.DbUtils;
                 btnImprimerActionPerformed(evt);
             }
         });
-        affNouvelle.add(btnImprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 270, 290, -1));
+        affNouvelle.add(btnImprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 270, 290, 40));
 
         btnValider.setBackground(new java.awt.Color(255, 50, 50));
         btnValider.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
@@ -842,12 +964,25 @@ import net.proteanit.sql.DbUtils;
         });
         affNouvelle.add(lbl_retour1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 30, 60));
 
+        btnClearFields.setBackground(new java.awt.Color(255, 255, 255));
+        btnClearFields.setFont(new java.awt.Font("Cambria", 1, 16)); // NOI18N
+        btnClearFields.setText("Effacer les champs ou les activés");
+        btnClearFields.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearFieldsActionPerformed(evt);
+            }
+        });
+        affNouvelle.add(btnClearFields, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 170, 290, 40));
+
         tabPan.addTab("tab2", affNouvelle);
 
         listeAssure.setBackground(new java.awt.Color(255, 255, 255));
+        listeAssure.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnModifier1.setBackground(new java.awt.Color(255, 255, 255));
         btnModifier1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        btnModifier1.setForeground(new java.awt.Color(86, 159, 245));
+        btnModifier1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\update_20px.png")); // NOI18N
         btnModifier1.setText("Modifier");
         btnModifier1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -865,16 +1000,19 @@ import net.proteanit.sql.DbUtils;
                 btnModifier1ActionPerformed(evt);
             }
         });
+        listeAssure.add(btnModifier1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 190, 220, -1));
 
         btnSupprimer.setBackground(new java.awt.Color(204, 0, 0));
         btnSupprimer.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         btnSupprimer.setForeground(new java.awt.Color(255, 255, 255));
+        btnSupprimer.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\delete_trash_20px.png")); // NOI18N
         btnSupprimer.setText("Supprimer");
         btnSupprimer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSupprimerActionPerformed(evt);
             }
         });
+        listeAssure.add(btnSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 230, 220, -1));
 
         btnPrint.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\print_48px.png")); // NOI18N
         btnPrint.addActionListener(new java.awt.event.ActionListener() {
@@ -882,16 +1020,18 @@ import net.proteanit.sql.DbUtils;
                 btnPrintActionPerformed(evt);
             }
         });
+        listeAssure.add(btnPrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(751, 80, 140, -1));
 
-        lbl_retour.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\left_26px.png")); // NOI18N
+        lbl_retour.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\back_arrow_40px.png")); // NOI18N
         lbl_retour.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_retourMouseClicked(evt);
             }
         });
+        listeAssure.add(lbl_retour, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 84, -1, -1));
 
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
@@ -935,58 +1075,172 @@ import net.proteanit.sql.DbUtils;
         });
         jScrollPane3.setViewportView(jTable1);
 
-        javax.swing.GroupLayout listeAssureLayout = new javax.swing.GroupLayout(listeAssure);
-        listeAssure.setLayout(listeAssureLayout);
-        listeAssureLayout.setHorizontalGroup(
-            listeAssureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(listeAssureLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(lbl_retour)
-                .addGap(67, 67, 67)
-                .addComponent(btnPrint)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnModifier1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(listeAssureLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 320, Short.MAX_VALUE))
-        );
-        listeAssureLayout.setVerticalGroup(
-            listeAssureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(listeAssureLayout.createSequentialGroup()
-                .addGroup(listeAssureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(listeAssureLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(listeAssureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPrint, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listeAssureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnModifier1)
-                                .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(listeAssureLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbl_retour)
-                        .addGap(1, 1, 1)))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(112, 112, 112))
-        );
+        listeAssure.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 151, 890, 485));
+
+        jButton1.setBackground(new java.awt.Color(128, 193, 244));
+        jButton1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\add_user_group_man_man_20px.png")); // NOI18N
+        jButton1.setText("Ajouter un Nouveau");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        listeAssure.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, 220, 30));
+
+        btnRenouvellement.setBackground(new java.awt.Color(255, 255, 255));
+        btnRenouvellement.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        btnRenouvellement.setForeground(new java.awt.Color(0, 204, 0));
+        btnRenouvellement.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\double_tick_20px.png")); // NOI18N
+        btnRenouvellement.setText("Renouvellement");
+        btnRenouvellement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenouvellementActionPerformed(evt);
+            }
+        });
+        listeAssure.add(btnRenouvellement, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 270, 220, 30));
+
+        jButton3.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton3.setText("Duplicata");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        listeAssure.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 310, 220, 30));
+
+        jLabel23.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(217, 69, 69));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("LISTE DES ASSURES INSCRITS");
+        listeAssure.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 350, -1));
 
         tabPan.addTab("tab3", listeAssure);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1505, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 748, Short.MAX_VALUE)
-        );
+        borderaux.setBackground(new java.awt.Color(255, 255, 255));
+        borderaux.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabPan.addTab("tab4", jPanel3);
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        tabBorderaux.setAutoCreateRowSorter(true);
+        tabBorderaux.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        tabBorderaux.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "operateur", "assure", "attestation", "police", "immatr", "null", "null", "null", "null", "null", "null"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabBorderaux.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabBorderaux.setEditingColumn(0);
+        tabBorderaux.setEditingRow(0);
+        tabBorderaux.setFocusable(false);
+        tabBorderaux.setGridColor(new java.awt.Color(255, 255, 255));
+        tabBorderaux.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabBorderaux.setRowHeight(25);
+        tabBorderaux.setSelectionBackground(new java.awt.Color(204, 0, 51));
+        tabBorderaux.setShowVerticalLines(false);
+        tabBorderaux.getTableHeader().setReorderingAllowed(false);
+        tabBorderaux.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabBorderauxMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabBorderaux);
+
+        borderaux.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 263, 1232, 514));
+
+        jLabel28.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\la-meilleure-assurance-auto-.png")); // NOI18N
+        borderaux.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 34, -1, 223));
+
+        jLabel29.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(5, 145, 228));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\profile_60px.png")); // NOI18N
+        jLabel29.setText("Borderaux HORSPOOL");
+        borderaux.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 350, -1));
+
+        cboGroupeBorderaux.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Argenciel", "Pole", "      " }));
+        cboGroupeBorderaux.setSelectedIndex(-1);
+        cboGroupeBorderaux.setToolTipText("");
+        cboGroupeBorderaux.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboGroupeBorderauxActionPerformed(evt);
+            }
+        });
+        borderaux.add(cboGroupeBorderaux, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 210, 130, 30));
+
+        jLabel30.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("Trier par groupe");
+        borderaux.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 120, 30));
+
+        btnPrint1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\print_48px.png")); // NOI18N
+        btnPrint1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrint1ActionPerformed(evt);
+            }
+        });
+        borderaux.add(btnPrint1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 190, 70, -1));
+
+        btnSupprimer1.setBackground(new java.awt.Color(204, 0, 0));
+        btnSupprimer1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        btnSupprimer1.setForeground(new java.awt.Color(255, 255, 255));
+        btnSupprimer1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\delete_trash_20px.png")); // NOI18N
+        btnSupprimer1.setText("Supprimer");
+        btnSupprimer1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimer1ActionPerformed(evt);
+            }
+        });
+        borderaux.add(btnSupprimer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 210, 170, -1));
+
+        txTAttest_filter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txTAttest_filterActionPerformed(evt);
+            }
+        });
+        borderaux.add(txTAttest_filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 210, 160, 31));
+
+        jLabel31.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel31.setText("Attestation");
+        borderaux.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, 80, 32));
+        borderaux.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 90, 168, -1));
+        borderaux.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 140, 168, -1));
+
+        jLabel32.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel32.setText("Date d'Echeance");
+        borderaux.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 120, 168, 20));
+
+        jLabel33.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel33.setText("Date de délivrance");
+        borderaux.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 70, 165, 20));
+
+        jButton2.setBackground(new java.awt.Color(102, 204, 255));
+        jButton2.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Filtrer");
+        borderaux.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 170, 168, 30));
+
+        tabPan.addTab("tab4", borderaux);
 
         getContentPane().add(tabPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, -56, 1510, -1));
 
@@ -1044,6 +1298,11 @@ import net.proteanit.sql.DbUtils;
         jMenu2.setText("BORDERAUX");
 
         jMenuItem5.setText("Horspool");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("TPV");
@@ -1078,6 +1337,7 @@ import net.proteanit.sql.DbUtils;
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         tabPan.setSelectedIndex(2);
+        affiche_listeAssure();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1095,6 +1355,9 @@ import net.proteanit.sql.DbUtils;
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         tabPan.setSelectedIndex(1); 
         cboTalon.setSelectedIndex(-1);
+        btnValider.setText("Enregistrer");
+        affNouvelle.setBackground(Color.white);
+        clearField();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void txtPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPTActionPerformed
@@ -1203,7 +1466,7 @@ import net.proteanit.sql.DbUtils;
 
     private void btnValiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderActionPerformed
         
-        if ( (evt.getSource() == btnValider) && (btnValider.getText() == "Enregistrer")){
+        if ( (evt.getSource() == btnValider) && (btnValider.getText() == "Enregistrer") && (btnValider.getText() == "Renouveller") ){
          
             try{
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance", "root", "");
@@ -1270,12 +1533,16 @@ import net.proteanit.sql.DbUtils;
                 //JOptionPane.showMessageDialog(null, ex.getMessage(),null, JOptionPane.ERROR_MESSAGE);
                 jTextArea1.setText(ex.getMessage());
             }
-        } else {
-            
-            if  ((evt.getSource() == btnValider ) && (btnValider.getText()=="Modifier")){
-                update();
-                affiche_listeAssure();
-            }
+        } else {            
+                if ((evt.getSource() == btnValider ) && (btnValider.getText()== "Modifier")){
+                    update();
+                    affiche_listeAssure();
+                } /*else {
+                if ((evt.getSource() == btnValider ) &&(btnValider.getText() == "Renouveller")){
+                    update();
+                    affiche_listeAssure();
+                    }
+                }*/
         }
     }//GEN-LAST:event_btnValiderActionPerformed
 
@@ -1285,6 +1552,7 @@ import net.proteanit.sql.DbUtils;
 
     private void btnModifier1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModifier1MouseEntered
         btnModifier1.setBackground(new Color(4,128,4));
+        btnModifier1.setForeground(Color.white);
     }//GEN-LAST:event_btnModifier1MouseEntered
 
     private void btnModifier1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModifier1MouseExited
@@ -1332,7 +1600,7 @@ import net.proteanit.sql.DbUtils;
                     dateEcheance.setDate(rs.getDate("dateEcheance"));
                     nombrePlaces.setValue(rs.getInt("nombrePlaces"));
                     nombreMois.setValue(rs.getInt("nombreMois"));
-                    nombreChevaux.setValue(rs.getInt("puissanceMoteur"));                    
+                    nombreChevaux.setValue(rs.getInt("puissanceMoteur"));                   
                     
                     
                     btnValider.setText("Modifier");
@@ -1386,11 +1654,124 @@ import net.proteanit.sql.DbUtils;
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         tabPan.setSelectedIndex(2); 
+        affiche_listeAssure();
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         tabPan.setSelectedIndex(1);
+        cboTalon.setSelectedIndex(-1);
+        btnValider.setText("Enregistrer");
+        affNouvelle.setBackground(Color.white);
+        clearField();
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void btnRenouvellementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenouvellementActionPerformed
+        
+        //-------- Recupere les donnees comme en modification ----------
+            int ligne = jTable1.getSelectedRow();
+            String value = jTable1.getModel().getValueAt(ligne, 2).toString();
+
+            try {
+
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+                String sql_recup = "Select * from  alldata where attestation="+value;
+                System.out.println("Assure à renouvellement: "+value);
+                PreparedStatement ps = con.prepareStatement(sql_recup);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    
+                    tabPan.setSelectedIndex(1);
+                    
+                    geler(); //desactiver tous les champs
+                    
+                    id = rs.getInt("id");
+                    System.out.print("ID client cliqué :"+id);
+                    txtAssure.setText(rs.getString("clientAssure"));
+                    txtProfession.setText(rs.getString("profession"));
+                    txtAdresse.setText(rs.getString("adresse"));
+                    txtMarque.setText(rs.getString("marque"));
+                    txtImmat.setText(rs.getString("immatriculation"));
+                    txtAttest.setText(rs.getString("attestation"));
+                    txtPolice.setText(rs.getString("numeroPolice"));
+                    txtTelephone.setText(rs.getString("telephone"));
+                    txtGenre.setText(rs.getString("genre"));
+                    
+                    cboTalon.setSelectedItem(rs.getString("talon"));
+                    cboCategorie.setSelectedItem(rs.getString("categorie"));
+                    cboEnergie.setSelectedItem(rs.getString("energie"));
+                    cboGroupe.setSelectedItem(rs.getString("groupe"));
+                    cboTonnage.setSelectedItem(rs.getString("tonnage"));
+                    
+                    dateDelivrance.setDate(rs.getDate("dateDelivrance"));
+                    dateEcheance.setDate(rs.getDate("dateEcheance"));
+                    nombrePlaces.setValue(rs.getInt("nombrePlaces"));
+                    nombreMois.setValue(rs.getInt("nombreMois"));
+                    nombreChevaux.setValue(rs.getInt("puissanceMoteur"));                   
+                    
+                    //------Modifier le label du bouton 
+                    btnValider.setText("Renouveller");
+                    
+                }
+
+            } catch (SQLException ex){
+                jTextArea1.setText(ex.getMessage());
+            }        
+        
+    }//GEN-LAST:event_btnRenouvellementActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        tabPan.setSelectedIndex(1);
+        cboTalon.setSelectedIndex(-1);
+        btnValider.setText("Enregistrer");
+        affNouvelle.setBackground(Color.white);
+        clearField();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnClearFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFieldsActionPerformed
+       if (evt.getSource() == btnClearFields){
+           clearField();
+           activer();
+       }
+    }//GEN-LAST:event_btnClearFieldsActionPerformed
+
+    private void tabBorderauxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabBorderauxMouseClicked
+
+    }//GEN-LAST:event_tabBorderauxMouseClicked
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        tabPan.setSelectedIndex(3); 
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        tabPan.setSelectedIndex(3); 
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void cboGroupeBorderauxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGroupeBorderauxActionPerformed
+        if( cboGroupeBorderaux.getSelectedIndex() == 0){
+            afficheBorderauxArgenciel();
+        } else if (cboGroupeBorderaux.getSelectedIndex() == 1){
+            afficheBorderauxPole();
+        } else {
+            afficheBorderaux();
+        }
+    }//GEN-LAST:event_cboGroupeBorderauxActionPerformed
+
+    private void btnPrint1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPrint1ActionPerformed
+
+    private void btnSupprimer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimer1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprimer1ActionPerformed
+
+    private void txTAttest_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txTAttest_filterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txTAttest_filterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1431,19 +1812,30 @@ public static void main(String args[]) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acceuil;
     private javax.swing.JPanel affNouvelle;
+    private javax.swing.JPanel borderaux;
+    private javax.swing.JButton btnClearFields;
     private javax.swing.JButton btnImprimer;
     private javax.swing.JButton btnModifier1;
     private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnPrint1;
+    private javax.swing.JButton btnRenouvellement;
     private javax.swing.JButton btnSupprimer;
+    private javax.swing.JButton btnSupprimer1;
     private javax.swing.JButton btnValider;
     private javax.swing.JButton btnValider1;
     private javax.swing.JComboBox<String> cboCategorie;
     private javax.swing.JComboBox<String> cboEnergie;
     private javax.swing.JComboBox<String> cboGroupe;
+    private javax.swing.JComboBox<String> cboGroupeBorderaux;
     private javax.swing.JComboBox<String> cboTalon;
     private javax.swing.JComboBox<String> cboTonnage;
     private com.toedter.calendar.JDateChooser dateDelivrance;
     private com.toedter.calendar.JDateChooser dateEcheance;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1459,11 +1851,18 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel5;
@@ -1492,8 +1891,8 @@ public static void main(String args[]) {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
@@ -1505,7 +1904,9 @@ public static void main(String args[]) {
     private com.toedter.components.JSpinField nombreChevaux;
     private com.toedter.components.JSpinField nombreMois;
     private com.toedter.components.JSpinField nombrePlaces;
+    private javax.swing.JTable tabBorderaux;
     private javax.swing.JTabbedPane tabPan;
+    private javax.swing.JTextField txTAttest_filter;
     private javax.swing.JTextField txtAdresse;
     public static javax.swing.JTextField txtAssure;
     private javax.swing.JTextField txtAttest;
