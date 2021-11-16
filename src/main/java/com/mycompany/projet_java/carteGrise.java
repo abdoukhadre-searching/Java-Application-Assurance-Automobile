@@ -44,12 +44,13 @@ public class carteGrise extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(250, 227, 161));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\logo-ass-ok.png")); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 200, 70));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 200, 80));
 
         jLabel3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel3.setText("Adresse:");
@@ -62,7 +63,7 @@ public class carteGrise extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 0, 0));
         jLabel11.setText("AU.....");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 50, 20));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 50, 20));
 
         jLabel5.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel5.setText("Profession:");
@@ -71,7 +72,7 @@ public class carteGrise extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(204, 0, 0));
         jLabel10.setText("VALABLE DU ....");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 110, 20));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 110, 20));
 
         jLabel6.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
         jLabel6.setText("SOUSCRIPTEUR");
@@ -90,13 +91,13 @@ public class carteGrise extends javax.swing.JFrame {
                 buttonAnnulerImpressionActionPerformed(evt);
             }
         });
-        jPanel1.add(buttonAnnulerImpression, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 420, 100, 30));
+        jPanel1.add(buttonAnnulerImpression, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 400, 100, 30));
 
         buttonImprimer.setBackground(new java.awt.Color(243, 236, 236));
         buttonImprimer.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         buttonImprimer.setText("Imprimer");
         buttonImprimer.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanel1.add(buttonImprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 140, 30));
+        jPanel1.add(buttonImprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 400, 140, 30));
 
         jLabel7.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel7.setText("Numero Police:");
@@ -110,16 +111,7 @@ public class carteGrise extends javax.swing.JFrame {
         jLabel9.setText("Genre:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 80, 20));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 450));
 
         pack();
         setLocationRelativeTo(null);

@@ -6,7 +6,10 @@
 package com.mycompany.projet_java;
 import java.sql.Connection;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.awt.PrintJob;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -574,6 +577,31 @@ import net.proteanit.sql.DbUtils;
         jButton4 = new javax.swing.JButton();
         btnPrint2 = new javax.swing.JButton();
         jLabel37 = new javax.swing.JLabel();
+        panel_carteGrise = new javax.swing.JPanel();
+        panelCG = new javax.swing.JPanel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        dateFin = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        buttonAnnulerImpression = new javax.swing.JButton();
+        buttonImprimer = new javax.swing.JButton();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        jLabel76 = new javax.swing.JLabel();
+        nom = new javax.swing.JLabel();
+        profession = new javax.swing.JLabel();
+        adresse = new javax.swing.JLabel();
+        genre = new javax.swing.JLabel();
+        marque = new javax.swing.JLabel();
+        numeropolice = new javax.swing.JLabel();
+        dateDebut = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        jLabel77 = new javax.swing.JLabel();
+        jLabel84 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -591,7 +619,6 @@ import net.proteanit.sql.DbUtils;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Assurance Automobile 2021 SRT3");
-        setAlwaysOnTop(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTextArea1.setEditable(false);
@@ -1692,6 +1719,139 @@ import net.proteanit.sql.DbUtils;
 
         tabPan.addTab("tab5", historiqueAssure);
 
+        panel_carteGrise.setBackground(new java.awt.Color(255, 255, 255));
+        panel_carteGrise.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelCG.setBackground(new java.awt.Color(250, 227, 161));
+        panelCG.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel65.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\logo-ass-ok.png")); // NOI18N
+        panelCG.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 200, 80));
+
+        jLabel67.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel67.setText("Adresse:");
+        panelCG.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 90, 20));
+
+        dateFin.setFont(new java.awt.Font("Stencil", 0, 27)); // NOI18N
+        dateFin.setForeground(new java.awt.Color(204, 51, 0));
+        dateFin.setText("________________");
+        panelCG.add(dateFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 350, 300, 30));
+
+        jLabel69.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel69.setText("AU.....");
+        panelCG.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 110, 20));
+
+        jLabel70.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel70.setText("Profession:");
+        panelCG.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 100, 20));
+
+        jLabel71.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel71.setText("VALABLE DU ....");
+        panelCG.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 110, 20));
+
+        buttonAnnulerImpression.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        buttonAnnulerImpression.setText("Annuler");
+        buttonAnnulerImpression.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        buttonAnnulerImpression.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonAnnulerImpressionMouseClicked(evt);
+            }
+        });
+        buttonAnnulerImpression.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnnulerImpressionActionPerformed(evt);
+            }
+        });
+        panelCG.add(buttonAnnulerImpression, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 400, 100, -1));
+
+        buttonImprimer.setBackground(new java.awt.Color(243, 236, 236));
+        buttonImprimer.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        buttonImprimer.setText("Imprimer");
+        buttonImprimer.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        buttonImprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonImprimerActionPerformed(evt);
+            }
+        });
+        panelCG.add(buttonImprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 140, 30));
+
+        jLabel73.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel73.setText("Numero Police:");
+        panelCG.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 110, 20));
+
+        jLabel74.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel74.setText("Marque:");
+        panelCG.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 80, 20));
+
+        jLabel75.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel75.setText("Genre:");
+        panelCG.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 80, 20));
+
+        jLabel76.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel76.setText("Nom Complet:");
+        panelCG.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, 20));
+
+        nom.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        nom.setForeground(new java.awt.Color(204, 51, 0));
+        nom.setText("________________");
+        panelCG.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 250, 30));
+
+        profession.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        profession.setForeground(new java.awt.Color(204, 51, 0));
+        profession.setText("________________");
+        panelCG.add(profession, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 250, 30));
+
+        adresse.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        adresse.setForeground(new java.awt.Color(204, 51, 0));
+        adresse.setText("________________");
+        panelCG.add(adresse, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 260, 30));
+
+        genre.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        genre.setForeground(new java.awt.Color(204, 51, 0));
+        genre.setText("________________");
+        panelCG.add(genre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 260, 30));
+
+        marque.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        marque.setForeground(new java.awt.Color(204, 51, 0));
+        marque.setText("________________");
+        panelCG.add(marque, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 260, 30));
+
+        numeropolice.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        numeropolice.setForeground(new java.awt.Color(204, 51, 0));
+        numeropolice.setText("________________");
+        panelCG.add(numeropolice, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 260, 30));
+
+        dateDebut.setFont(new java.awt.Font("Stencil", 0, 27)); // NOI18N
+        dateDebut.setForeground(new java.awt.Color(204, 51, 0));
+        dateDebut.setText("________________");
+        panelCG.add(dateDebut, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, 300, 30));
+
+        jLabel85.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel85.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\téléchargement__1_-removebg-preview.png")); // NOI18N
+        panelCG.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, 200, 240));
+
+        jLabel86.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel86.setText("SOUSCRIPTEUR");
+        panelCG.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 20));
+
+        jLabel77.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel77.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel77.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\Frame 39.png")); // NOI18N
+        panelCG.add(jLabel77, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 280, 40));
+
+        panel_carteGrise.add(panelCG, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 960, 450));
+
+        jLabel84.setFont(new java.awt.Font("Cambria", 1, 36)); // NOI18N
+        jLabel84.setForeground(new java.awt.Color(204, 51, 0));
+        jLabel84.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel84.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\print_48px.png")); // NOI18N
+        jLabel84.setText("     IMPRESSION CARTE GRISE ASSURE");
+        panel_carteGrise.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 790, -1));
+
+        tabPan.addTab("tab6", panel_carteGrise);
+
         getContentPane().add(tabPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, -56, 1510, -1));
 
         jPanel1.setBackground(new java.awt.Color(204, 51, 0));
@@ -1921,9 +2081,19 @@ import net.proteanit.sql.DbUtils;
     }//GEN-LAST:event_cboGroupeActionPerformed
 
     private void btnImprimerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimerMouseClicked
-        carteGrise carte = new carteGrise();
-        carte.setVisible(true);
-        carte.setAlwaysOnTop(true);
+        tabPan.setSelectedIndex(5);
+        nom.setText(txtAssure.getText());
+        profession.setText(txtProfession.getText());
+        genre.setText(txtGenre.getText());
+        marque.setText(txtMarque.getText());
+        numeropolice.setText(txtPolice.getText());
+        adresse.setText(txtAdresse.getText());
+        SimpleDateFormat tdate = new SimpleDateFormat("yyyy-MM-dd");
+        String dateEcheImp = tdate.format(dateEcheance.getDate());
+        String dateDelivImp = tdate.format(dateDelivrance.getDate());
+        
+        dateDebut.setText(dateEcheImp);
+        dateFin.setText(dateDelivImp);
     }//GEN-LAST:event_btnImprimerMouseClicked
 
     private void btnImprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimerActionPerformed
@@ -2428,6 +2598,24 @@ import net.proteanit.sql.DbUtils;
         tabPan.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel36MouseClicked
 
+    private void buttonAnnulerImpressionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonAnnulerImpressionMouseClicked
+       tabPan.setSelectedIndex(1);
+    }//GEN-LAST:event_buttonAnnulerImpressionMouseClicked
+
+    private void buttonAnnulerImpressionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnnulerImpressionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnnulerImpressionActionPerformed
+
+    private void buttonImprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonImprimerActionPerformed
+        
+        Toolkit tkp = panelCG.getToolkit();
+        PrintJob pjp = tkp.getPrintJob(new principale(), null, null);
+        Graphics g = pjp.getGraphics();
+        panelCG.print(g);
+        g.dispose();
+        pjp.end();        
+    }//GEN-LAST:event_buttonImprimerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2466,6 +2654,7 @@ public static void main(String args[]) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acceuil;
+    private javax.swing.JLabel adresse;
     private javax.swing.JPanel affNouvelle;
     private javax.swing.JPanel borderaux;
     private javax.swing.JButton btnCalculer;
@@ -2482,14 +2671,19 @@ public static void main(String args[]) {
     private javax.swing.JButton btnSupprimer1;
     private javax.swing.JButton btnSupprimer2;
     private javax.swing.JButton btnValider;
+    private javax.swing.JButton buttonAnnulerImpression;
+    private javax.swing.JButton buttonImprimer;
     private javax.swing.JComboBox<String> cboCategorie;
     private javax.swing.JComboBox<String> cboEnergie;
     private javax.swing.JComboBox<String> cboGroupe;
     private javax.swing.JComboBox<String> cboGroupeBorderaux;
     private javax.swing.JComboBox<String> cboTalon;
     private javax.swing.JComboBox<String> cboTonnage;
+    private javax.swing.JLabel dateDebut;
     private com.toedter.calendar.JDateChooser dateDelivrance;
     private com.toedter.calendar.JDateChooser dateEcheance;
+    private javax.swing.JLabel dateFin;
+    private javax.swing.JLabel genre;
     private javax.swing.JPanel historiqueAssure;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -2557,9 +2751,22 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -2587,9 +2794,15 @@ public static void main(String args[]) {
     private javax.swing.JLabel lbl_retour;
     private javax.swing.JLabel lbl_retour1;
     private javax.swing.JPanel listeAssure;
+    private javax.swing.JLabel marque;
+    private javax.swing.JLabel nom;
     private com.toedter.components.JSpinField nombreChevaux;
     private com.toedter.components.JSpinField nombreMois;
     private com.toedter.components.JSpinField nombrePlaces;
+    private javax.swing.JLabel numeropolice;
+    private javax.swing.JPanel panelCG;
+    private javax.swing.JPanel panel_carteGrise;
+    private javax.swing.JLabel profession;
     private javax.swing.JTable tabBorderaux;
     private javax.swing.JTable tabHistorique;
     private javax.swing.JTabbedPane tabPan;
