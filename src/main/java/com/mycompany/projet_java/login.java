@@ -257,13 +257,15 @@ public class login extends javax.swing.JFrame {
         ResultSet rst = null;
         PreparedStatement pst = null;
         
-        String user = "root";
-        String url = "jdbc:mysql://localhost:3306/assurance";
+        String user = "bayeserigne";
+        String pwd = "Mymammor76ql";
+        //String url = "jdbc:mysql://localhost:3306/assurance";
+        String url ="jdbc:mysql://bd-azuremysql.mysql.database.azure.com:3306/assurance";
         String sql;
         
         try {
             //Class.forName("com.mysql.cj.jdbc");
-            con = DriverManager.getConnection(url, user, "");
+            con = DriverManager.getConnection(url, user, pwd);
             System.out.println("Connection à la base de données réussie !!");
             
             sql = "select * from users where login = ? and motdepasse = ?";
