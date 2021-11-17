@@ -18,9 +18,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.Timer;
 import net.proteanit.sql.DbUtils;
 /**
@@ -32,9 +36,11 @@ import net.proteanit.sql.DbUtils;
             initComponents();
             setExtendedState(principale.MAXIMIZED_BOTH);
             t.start();
-            affiche_listeAssure();
+            affiche_listeAssure(jTable1);
             affiche_HistoriqueAssure();
             afficheBorderaux();
+            listePolice();
+            caisse();
         }
 
     private Connection connection = null;
@@ -43,6 +49,8 @@ import net.proteanit.sql.DbUtils;
     public static int ATT ;
     
     
+
+           
     Timer t = new Timer(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,19 +159,21 @@ import net.proteanit.sql.DbUtils;
     /**
      * Creates new form principale
      */
-    public void affiche_listeAssure(){
+    public void affiche_listeAssure(JTable t){
         try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
                 String sql = "SELECT  operateur, clientAssure, attestation, numeroPolice, immatriculation FROM alldata";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
-                jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+                t.setModel(DbUtils.resultSetToTableModel(rs));
                 con.close();
                         
         } catch(SQLException ex){
             jTextArea1.setText(ex.getMessage()+"\n");
         }
     }
+    
+    
     
     public void affiche_HistoriqueAssure(){
         try {
@@ -172,6 +182,33 @@ import net.proteanit.sql.DbUtils;
                 PreparedStatement ps = con.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 tabHistorique.setModel(DbUtils.resultSetToTableModel(rs));
+                con.close();
+                        
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage()+"\n");
+        }
+    }
+    
+    public void listePolice(){
+        try {
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+                String sql = "SELECT id, numeroPolice FROM alldata";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                jTable3.setModel(DbUtils.resultSetToTableModel(rs));
+                con.close();
+                        
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage()+"\n");
+        }
+    }
+    public void caisse(){
+        try {
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+                String sql = "SELECT * FROM `caisse`";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                jTable5.setModel(DbUtils.resultSetToTableModel(rs));
                 con.close();
                         
         } catch(SQLException ex){
@@ -235,6 +272,25 @@ import net.proteanit.sql.DbUtils;
             jTextArea1.setText(ex.getMessage()+"\n");
         }
     }
+    public void expiration(){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/assurance","root","");
+            String sql = "SELECT  immatriculation, clientAssure, numeroPolice, dateEcheance, dateDelivrance, heure FROM alldata WHERE dateEcheance BETWEEN ? AND ? ";
+            PreparedStatement ps = con.prepareStatement(sql);  
+            SimpleDateFormat tdate = new SimpleDateFormat("yyyy-MM-dd");
+            String debut = tdate.format(datedebut.getDate());
+            String fin = tdate.format(datefin.getDate());            
+            ps.setString(1, debut);
+            ps.setString(2, fin);
+            ResultSet rs = ps.executeQuery();
+            jTable4.setModel(DbUtils.resultSetToTableModel(rs));
+            con.close();
+            
+        } catch(SQLException ex){
+            jTextArea1.setText(ex.getMessage()+"\n");
+        }
+        
+    }
     
     public void update(){
         try {
@@ -260,6 +316,15 @@ import net.proteanit.sql.DbUtils;
                    SimpleDateFormat tdate = new SimpleDateFormat("yyyy-MM-dd");
                    String dateEche_update = tdate.format(dateEcheance.getDate());
                    String dateDeliv_update = tdate.format(dateDelivrance.getDate());
+                   
+                   //------------
+                   SimpleDateFormat moi = new SimpleDateFormat("MM");
+                   String moiResearch = moi.format(dateDelivrance.getDate());
+                   
+
+                   //-------
+                   
+                   
                    
                    Date date =new java.util.Date();
                    Timestamp sqlTime =new java.sql.Timestamp(date.getTime());
@@ -549,7 +614,6 @@ import net.proteanit.sql.DbUtils;
         btnRenouvellement = new javax.swing.JButton();
         btnDuplicata = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
         borderaux = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabBorderaux = new javax.swing.JTable();
@@ -602,6 +666,42 @@ import net.proteanit.sql.DbUtils;
         jLabel86 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
         jLabel84 = new javax.swing.JLabel();
+        panelImprimerLA = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel78 = new javax.swing.JLabel();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        panelPolice = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        lbl_retour2 = new javax.swing.JLabel();
+        expirationMensuelle = new javax.swing.JPanel();
+        datefin = new com.toedter.calendar.JDateChooser();
+        jButton5 = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        datedebut = new com.toedter.calendar.JDateChooser();
+        lbl_retour4 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jLabel90 = new javax.swing.JLabel();
+        jLabel91 = new javax.swing.JLabel();
+        jLabel92 = new javax.swing.JLabel();
+        panelCaisse = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jLabel89 = new javax.swing.JLabel();
+        lbl_retour3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -701,7 +801,7 @@ import net.proteanit.sql.DbUtils;
                         .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabel3)
                     .addComponent(jLabel19))
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addContainerGap(365, Short.MAX_VALUE))
         );
 
         tabPan.addTab("tab1", acceuil);
@@ -1149,6 +1249,17 @@ import net.proteanit.sql.DbUtils;
         jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         affNouvelle.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 50, 120, -1));
         affNouvelle.add(nombrePlaces, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 80, 60, -1));
+
+        nombreMois.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombreMoisMouseClicked(evt);
+            }
+        });
+        nombreMois.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombreMoisKeyTyped(evt);
+            }
+        });
         affNouvelle.add(nombreMois, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 50, 60, -1));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1343,7 +1454,7 @@ import net.proteanit.sql.DbUtils;
                 btnPrintActionPerformed(evt);
             }
         });
-        listeAssure.add(btnPrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 360, 50));
+        listeAssure.add(btnPrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, 360, 50));
 
         lbl_retour.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\back_arrow_40px.png")); // NOI18N
         lbl_retour.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1438,10 +1549,7 @@ import net.proteanit.sql.DbUtils;
         jLabel23.setForeground(new java.awt.Color(204, 51, 0));
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel23.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\Frame 6 copy.png")); // NOI18N
-        listeAssure.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 390, 70));
-
-        jLabel34.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\43483916-moderne-voiture-rouge-removebg-preview.png")); // NOI18N
-        listeAssure.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 440, 220));
+        listeAssure.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 390, 70));
 
         tabPan.addTab("tab3", listeAssure);
 
@@ -1526,7 +1634,7 @@ import net.proteanit.sql.DbUtils;
                 btnPrint1ActionPerformed(evt);
             }
         });
-        borderaux.add(btnPrint1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 190, 70, -1));
+        borderaux.add(btnPrint1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 180, 70, -1));
 
         btnSupprimer1.setBackground(new java.awt.Color(204, 0, 0));
         btnSupprimer1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
@@ -1636,7 +1744,7 @@ import net.proteanit.sql.DbUtils;
 
         historiqueAssure.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 116, 920, 660));
 
-        jPanel2.setBackground(new java.awt.Color(204, 51, 0));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1644,7 +1752,7 @@ import net.proteanit.sql.DbUtils;
         jPanel2.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, 365, 61));
 
         jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel36.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\back_arrow_60px.png")); // NOI18N
+        jLabel36.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\back_arrow_40px.png")); // NOI18N
         jLabel36.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel36MouseClicked(evt);
@@ -1793,35 +1901,35 @@ import net.proteanit.sql.DbUtils;
         jLabel76.setText("Nom Complet:");
         panelCG.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, 20));
 
-        nom.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        nom.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         nom.setForeground(new java.awt.Color(204, 51, 0));
         nom.setText("________________");
-        panelCG.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 250, 30));
+        panelCG.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 300, 30));
 
-        profession.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        profession.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         profession.setForeground(new java.awt.Color(204, 51, 0));
         profession.setText("________________");
-        panelCG.add(profession, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 250, 30));
+        panelCG.add(profession, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 300, 30));
 
-        adresse.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        adresse.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         adresse.setForeground(new java.awt.Color(204, 51, 0));
         adresse.setText("________________");
-        panelCG.add(adresse, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 260, 30));
+        panelCG.add(adresse, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 310, 30));
 
-        genre.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        genre.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         genre.setForeground(new java.awt.Color(204, 51, 0));
         genre.setText("________________");
-        panelCG.add(genre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 260, 30));
+        panelCG.add(genre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 310, 30));
 
-        marque.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        marque.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         marque.setForeground(new java.awt.Color(204, 51, 0));
         marque.setText("________________");
-        panelCG.add(marque, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 260, 30));
+        panelCG.add(marque, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 310, 30));
 
-        numeropolice.setFont(new java.awt.Font("Brush Script MT", 0, 24)); // NOI18N
+        numeropolice.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         numeropolice.setForeground(new java.awt.Color(204, 51, 0));
         numeropolice.setText("________________");
-        panelCG.add(numeropolice, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 260, 30));
+        panelCG.add(numeropolice, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 310, 30));
 
         dateDebut.setFont(new java.awt.Font("Stencil", 0, 27)); // NOI18N
         dateDebut.setForeground(new java.awt.Color(204, 51, 0));
@@ -1851,6 +1959,279 @@ import net.proteanit.sql.DbUtils;
         panel_carteGrise.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 790, -1));
 
         tabPan.addTab("tab6", panel_carteGrise);
+
+        panelImprimerLA.setBackground(new java.awt.Color(255, 255, 255));
+        panelImprimerLA.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jTable2.setAutoCreateRowSorter(true);
+        jTable2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "operateur", "assure", "attestation", "police", "immatr"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable2.setEditingColumn(0);
+        jTable2.setEditingRow(0);
+        jTable2.setFocusable(false);
+        jTable2.setGridColor(new java.awt.Color(255, 255, 255));
+        jTable2.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        jTable2.setRowHeight(25);
+        jTable2.setSelectionBackground(new java.awt.Color(204, 0, 51));
+        jTable2.setShowVerticalLines(false);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jTable2);
+
+        panelImprimerLA.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 940, 370));
+
+        jLabel34.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jLabel34.setText("TELEPHONE: 786564342");
+        panelImprimerLA.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 270, -1));
+
+        jLabel68.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel68.setText("LISTE DES ASSURES");
+        panelImprimerLA.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 230, -1));
+
+        jLabel72.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel72.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\logo-ass-ok.png")); // NOI18N
+        panelImprimerLA.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 200, 80));
+
+        jLabel78.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jLabel78.setText("ADRESSE: NDIA NONGO");
+        panelImprimerLA.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 190, -1));
+
+        jLabel79.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jLabel79.setText("PARTENAIRE: MODOU NAR NONGO MU SELL MI");
+        panelImprimerLA.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 270, -1));
+
+        jLabel80.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jLabel80.setText("BUREAU: MODOU NAR NONGO");
+        panelImprimerLA.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 190, -1));
+
+        jButton3.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton3.setText("IMPRIMER");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        panelImprimerLA.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 110, 110, -1));
+
+        tabPan.addTab("tab7", panelImprimerLA);
+
+        panelPolice.setBackground(new java.awt.Color(255, 255, 255));
+        panelPolice.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "police"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        panelPolice.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 1050, 130));
+
+        jLabel81.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\business-3d-bitcoin-advisor.png")); // NOI18N
+        panelPolice.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 280, 390));
+
+        jLabel82.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel82.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
+        jLabel82.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\supercar-digne-heritiere-de-la-mc12_MD_0-removebg-preview.png")); // NOI18N
+        panelPolice.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 650, 220));
+
+        jLabel83.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel83.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
+        jLabel83.setForeground(new java.awt.Color(204, 51, 0));
+        jLabel83.setText("NUMERO DE POLICE ATTRIBUE");
+        panelPolice.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 360, 40));
+
+        lbl_retour2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\left_26px.png")); // NOI18N
+        lbl_retour2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_retour2MouseClicked(evt);
+            }
+        });
+        panelPolice.add(lbl_retour2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 30, 60));
+
+        tabPan.addTab("tab8", panelPolice);
+
+        expirationMensuelle.setBackground(new java.awt.Color(255, 255, 255));
+        expirationMensuelle.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        expirationMensuelle.add(datefin, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 210, 30));
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton5.setText("Rechercher");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        expirationMensuelle.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 210, 30));
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "immat", "assure", "Debut", "Heure", "Fin", "Telephone"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTable4);
+
+        expirationMensuelle.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 1130, 360));
+        expirationMensuelle.add(datedebut, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 130, 210, 30));
+
+        lbl_retour4.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\left_26px.png")); // NOI18N
+        lbl_retour4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_retour4MouseClicked(evt);
+            }
+        });
+        expirationMensuelle.add(lbl_retour4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 30, 60));
+
+        jButton7.setBackground(new java.awt.Color(204, 51, 0));
+        jButton7.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("IMPRIMER");
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        expirationMensuelle.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 200, 200, 30));
+
+        jLabel90.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\92709269-expiration-clock-time-up-deadline-expiry-date-3d-illustration.jpg")); // NOI18N
+        expirationMensuelle.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 450, 310));
+
+        jLabel91.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel91.setText("...jusqu'au");
+        expirationMensuelle.add(jLabel91, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 130, 90, 30));
+
+        jLabel92.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel92.setText("Entre");
+        expirationMensuelle.add(jLabel92, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 50, 30));
+
+        tabPan.addTab("tab9", expirationMensuelle);
+
+        panelCaisse.setBackground(new java.awt.Color(255, 255, 255));
+        panelCaisse.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane8.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable5.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "libelle", "entree", "sortie", "date", "operateur", "bureau"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(jTable5);
+
+        panelCaisse.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 1210, 280));
+
+        jLabel87.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\caisse.png")); // NOI18N
+        panelCaisse.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
+
+        jLabel88.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        jLabel88.setForeground(new java.awt.Color(204, 51, 0));
+        jLabel88.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\money_bag_60px.png")); // NOI18N
+        panelCaisse.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 280, 70, 60));
+
+        jButton6.setBackground(new java.awt.Color(0, 102, 0));
+        jButton6.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("IMPRIMER");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        panelCaisse.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 310, 200, -1));
+
+        jLabel89.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\business-3d-profit-removebg-preview.png")); // NOI18N
+        panelCaisse.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 510, 430));
+
+        lbl_retour3.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Pictures\\image Projet java\\left_26px.png")); // NOI18N
+        lbl_retour3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_retour3MouseClicked(evt);
+            }
+        });
+        panelCaisse.add(lbl_retour3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 30, 60));
+
+        tabPan.addTab("tab10", panelCaisse);
 
         getContentPane().add(tabPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, -56, 1510, -1));
 
@@ -1901,6 +2282,11 @@ import net.proteanit.sql.DbUtils;
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Liste des polices attribués");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
@@ -1928,6 +2314,11 @@ import net.proteanit.sql.DbUtils;
         jMenu3.setText("EXPIRATIONS");
 
         jMenuItem7.setText("Expiration mensuelle");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuBar1.add(jMenu3);
@@ -1935,6 +2326,11 @@ import net.proteanit.sql.DbUtils;
         jMenu4.setText("CAISSE");
 
         jMenuItem8.setText("Etat de la caisse");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuBar1.add(jMenu4);
@@ -1948,7 +2344,7 @@ import net.proteanit.sql.DbUtils;
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         tabPan.setSelectedIndex(2);
         jTextArea1.setText(null);
-        affiche_listeAssure();
+        affiche_listeAssure(jTable1);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -2117,6 +2513,9 @@ import net.proteanit.sql.DbUtils;
                 SimpleDateFormat tdate = new SimpleDateFormat("yyyy-MM-dd");
                 String dateEche = tdate.format(dateEcheance.getDate());
                 String dateDeliv = tdate.format(dateDelivrance.getDate());
+                
+                
+               
 
                 java.util.Date date =new java.util.Date();
                 java.sql.Date sqlDate =new java.sql.Date(date.getTime());
@@ -2161,11 +2560,24 @@ import net.proteanit.sql.DbUtils;
                     ptmt.setInt(25,commission); // -------COMMISSION CALCULEE --------
 
                     ptmt.executeUpdate();
+                    ptmt.close();
+                    
+                    String sql_caisse = "INSERT INTO `caisse`(`libellé`, `entree`, `sortie`, `Date_Operation`, `Operateur`, `Bureau`) VALUES (?,?,?,?,?,?)";
+                    PreparedStatement ptmt_caisse = connection.prepareStatement(sql_caisse);
+                    ptmt_caisse.setString(1,"");
+                    ptmt_caisse.setInt(2,Integer.parseInt(txtSommeEncaisse.getText()));
+                    ptmt_caisse.setInt(3,0);
+                    ptmt_caisse.setString(4,dateDeliv);
+                    ptmt_caisse.setString(5,"Modou Nar Nongo");
+                    ptmt_caisse.setString(6,"Université Bambey 2021");
+                    ptmt_caisse.executeUpdate();
+                    ptmt_caisse.close();
+                    
                     //JOptionPane.showMessageDialog(null,"Informations de l'assuré ajoutées avec succés",null,JOptionPane.INFORMATION_MESSAGE);
                     jTextArea1.setForeground(Color.green);
                     jTextArea1.setText("**** Bravo ! les informations de l'assuré ont été insérées avec succés \n");
                     clearField();
-                    affiche_listeAssure(); // réactuliser la table des assurés....
+                    affiche_listeAssure(jTable1); // réactuliser la table des assurés....
                 }
 
             } catch (SQLException ex){
@@ -2175,7 +2587,7 @@ import net.proteanit.sql.DbUtils;
         } else {            
                 if ((evt.getSource() == btnValider ) && (btnValider.getText()== "Modifier")){
                     update();
-                    affiche_listeAssure();
+                    affiche_listeAssure(jTable1);
                 } /*else {
                 if ((evt.getSource() == btnValider ) &&(btnValider.getText() == "Renouveller")){
                     update();
@@ -2267,7 +2679,7 @@ import net.proteanit.sql.DbUtils;
                 ps.executeUpdate();
                 jTextArea1.setForeground(Color.green);
                 jTextArea1.setText("**** Suppression effectuée !! ****** \n ");
-                affiche_listeAssure();   // refresh automatiquement la liste !!            
+                affiche_listeAssure(jTable1);   // refresh automatiquement la liste !!            
 
             } catch (SQLException ex){
                    jTextArea1.setText(ex.getMessage());
@@ -2276,7 +2688,8 @@ import net.proteanit.sql.DbUtils;
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        // TODO add your handling code here:
+           tabPan.setSelectedIndex(6);
+           affiche_listeAssure(jTable2);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void lbl_retourMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_retourMouseClicked
@@ -2293,7 +2706,7 @@ import net.proteanit.sql.DbUtils;
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         tabPan.setSelectedIndex(2); 
-        affiche_listeAssure();
+        affiche_listeAssure(jTable1);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -2457,7 +2870,15 @@ import net.proteanit.sql.DbUtils;
     }//GEN-LAST:event_cboGroupeBorderauxActionPerformed
 
     private void btnPrint1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint1ActionPerformed
-        // TODO add your handling code here:
+        
+        MessageFormat header = new MessageFormat("BORDERAUX HORS POOL ASSOCIE");
+         MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+         try {
+             tabBorderaux.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (Exception e){
+             jTextArea1.append(e.getMessage()+"\n");
+         }
+        
     }//GEN-LAST:event_btnPrint1ActionPerformed
 
     private void btnSupprimer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimer1ActionPerformed
@@ -2591,7 +3012,15 @@ import net.proteanit.sql.DbUtils;
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnPrint2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint2ActionPerformed
-        // TODO add your handling code here:
+       
+        MessageFormat header = new MessageFormat("HISTORIQUE DES ASSURES");
+         MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+         try {
+             tabHistorique.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (Exception e){
+             jTextArea1.append(e.getMessage()+"\n");
+         }
+        
     }//GEN-LAST:event_btnPrint2ActionPerformed
 
     private void jLabel36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel36MouseClicked
@@ -2615,6 +3044,92 @@ import net.proteanit.sql.DbUtils;
         g.dispose();
         pjp.end();        
     }//GEN-LAST:event_buttonImprimerActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       
+         MessageFormat header = new MessageFormat("LISTE DES ASSURES");
+         MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+         try {
+             jTable2.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (Exception e){
+             jTextArea1.append(e.getMessage()+"\n");
+         }
+         
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        tabPan.setSelectedIndex(7);
+        listePolice();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void lbl_retour2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_retour2MouseClicked
+        tabPan.setSelectedIndex(0);
+        jTextArea1.setText(null);
+    }//GEN-LAST:event_lbl_retour2MouseClicked
+
+    private void nombreMoisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreMoisMouseClicked
+           // TODO add your handling code here:
+        Calendar cal=Calendar.getInstance();
+        cal.setTime(dateDelivrance.getDate());
+        cal.add(Calendar.MONTH, nombreMois.getValue());
+        dateEcheance.setDate(cal.getTime());
+    }//GEN-LAST:event_nombreMoisMouseClicked
+
+    private void nombreMoisKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreMoisKeyTyped
+        // TODO add your handling code here:
+        
+        
+
+        
+    }//GEN-LAST:event_nombreMoisKeyTyped
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        expiration();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        tabPan.setSelectedIndex(8);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        tabPan.setSelectedIndex(9);
+        caisse();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        MessageFormat header = new MessageFormat("FICHE D'ETAT DE LA CAISSE");
+         MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+         try {
+             jTable5.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (Exception e){
+             jTextArea1.append(e.getMessage()+"\n");
+         }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        MessageFormat header = new MessageFormat("Expiration mensuelle");
+         MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+         try {
+             jTable4.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (Exception e){
+             jTextArea1.append(e.getMessage()+"\n");
+         }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void lbl_retour3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_retour3MouseClicked
+        tabPan.setSelectedIndex(0);
+    }//GEN-LAST:event_lbl_retour3MouseClicked
+
+    private void lbl_retour4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_retour4MouseClicked
+        tabPan.setSelectedIndex(0);
+    }//GEN-LAST:event_lbl_retour4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -2683,11 +3198,18 @@ public static void main(String args[]) {
     private com.toedter.calendar.JDateChooser dateDelivrance;
     private com.toedter.calendar.JDateChooser dateEcheance;
     private javax.swing.JLabel dateFin;
+    private com.toedter.calendar.JDateChooser datedebut;
+    private com.toedter.calendar.JDateChooser datefin;
+    private javax.swing.JPanel expirationMensuelle;
     private javax.swing.JLabel genre;
     private javax.swing.JPanel historiqueAssure;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -2754,20 +3276,34 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -2787,12 +3323,23 @@ public static void main(String args[]) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel label12;
     private javax.swing.JLabel labelHeure;
     private javax.swing.JLabel lbl_retour;
     private javax.swing.JLabel lbl_retour1;
+    private javax.swing.JLabel lbl_retour2;
+    private javax.swing.JLabel lbl_retour3;
+    private javax.swing.JLabel lbl_retour4;
     private javax.swing.JPanel listeAssure;
     private javax.swing.JLabel marque;
     private javax.swing.JLabel nom;
@@ -2801,6 +3348,9 @@ public static void main(String args[]) {
     private com.toedter.components.JSpinField nombrePlaces;
     private javax.swing.JLabel numeropolice;
     private javax.swing.JPanel panelCG;
+    private javax.swing.JPanel panelCaisse;
+    private javax.swing.JPanel panelImprimerLA;
+    private javax.swing.JPanel panelPolice;
     private javax.swing.JPanel panel_carteGrise;
     private javax.swing.JLabel profession;
     private javax.swing.JTable tabBorderaux;
